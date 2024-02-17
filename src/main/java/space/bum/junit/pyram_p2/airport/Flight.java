@@ -1,5 +1,7 @@
 package space.bum.junit.pyram_p2.airport;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,8 +10,8 @@ import lombok.Getter;
 @Getter
 public class Flight {
   private String flightNumber;
+  Set<Passenger> passengers = new HashSet<>();
   private int seats;
-  private int passengers;
   private String origin;
   private String destination;
   private boolean flying;
@@ -26,18 +28,32 @@ public class Flight {
     }
     this.flightNumber = flightNumber;
     this.seats = seats;
-    this.passengers = 0;
     this.flying = false;
     this.takenOff = false;
     this.landed = false;
   }
 
   public void setSeats(int seats) {
-    if (passengers > seats) {
+    if (passengers.size() > seats) {
       throw new RuntimeException("기존 승객 수 보다 좌석 수를 줄일 수 없다!");
     }
 
     this.seats = seats;
+  }
+
+  public boolean addPassenger(Passenger passenger) {
+    if (passengers.size() >= seats) {
+      throw new RuntimeException("만석이므로 탑승이 불가합니다!");
+    }
+    return passengers.add(passenger);
+  }
+
+  public boolean removePassenger(Passenger passenger) {
+    return passengers.remove(passenger);
+  }
+
+  public int getPassengersNumber() {
+    return passengers.size();
   }
 
   public void setOrigin(String origin) {
@@ -59,13 +75,6 @@ public class Flight {
   public String toString() {
     return "항공편 번호: " + getFlightNumber() +
         ", 출발: " + getOrigin() + ", 도착: " + getDestination();
-  }
-
-  public void addPassenger() {
-    if (passengers >= seats) {
-      throw new RuntimeException("좌석 부족!");
-    }
-    passengers++;
   }
 
   public void takeOff() {
