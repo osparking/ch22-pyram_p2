@@ -1,8 +1,11 @@
 package space.bum.junit.pyram_p2.airport;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.stream.IntStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,23 +14,17 @@ class FlightTest {
 
   @Test
   @DisplayName("탑승객 수 미달 좌석배정 실패 시험")
-  public void testSetInvalidSeats() {
-    Flight flight = new Flight("AA1234", 50);
-    flight.setOrigin("청주");
-    flight.setDestination("상하이");
-    IntStream.range(0, flight.getSeats()).forEach(i -> flight.addPassenger());
-    assertEquals(50, flight.getPassengers());
+  public void testSetInvalidSeats() throws FileNotFoundException, IOException {
+    Flight flight = FlightBuilderUtil.buildFlightFromCsv();
+    assertEquals(50, flight.getPassengers().size());
     assertThrows(RuntimeException.class, () -> flight.setSeats(49));
   }
 
   @Test
   @DisplayName("탑승객 수 초과 좌석배정 성공 시험")
-  public void testSetValidSeats() {
-    Flight flight = new Flight("AA1234", 50);
-    flight.setOrigin("London");
-    flight.setDestination("Bucharest");
-    IntStream.range(0, flight.getSeats()).forEach(i -> flight.addPassenger());
-    assertEquals(50, flight.getPassengers());
+  public void testSetValidSeats() throws FileNotFoundException, IOException {
+    Flight flight = FlightBuilderUtil.buildFlightFromCsv();
+    assertEquals(50, flight.getPassengers().size());
     flight.setSeats(52);
     assertEquals(52, flight.getSeats());
   }
@@ -102,14 +99,10 @@ class FlightTest {
 
   @Test
   @DisplayName("만석인 경우 승객 추가하면 예외 발생 확인")
-  public void testAddPassengers() {
-    Flight flight = new Flight("AA1234", 50);
-    flight.setOrigin("인천");
-    flight.setDestination("상하이");
-
-    IntStream.range(0, flight.getSeats()).forEach(i -> flight.addPassenger());
-
-    assertEquals(50, flight.getPassengers());
-    assertThrows(RuntimeException.class, () -> flight.addPassenger());
+  public void testAddPassengers() throws FileNotFoundException, IOException {
+    Flight flight = FlightBuilderUtil.buildFlightFromCsv();
+    assertEquals(50, flight.getPassengers().size());
+    Passenger p = new Passenger("720204-2033444", "한채희", "KR");
+    assertThrows(RuntimeException.class, () -> flight.addPassenger(p));
   }
 }
