@@ -14,25 +14,27 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import space.bum.junit.pyram_p2.airport.producers.FlightProducer;
+
 @RunWith(Arquillian.class)
 public class FlightWithPassengersTest {
 
   @Deployment
   public static JavaArchive createDeployment() {
     return ShrinkWrap.create(JavaArchive.class)
-        .addClasses(Passenger.class, Flight.class)
+        .addClasses(Passenger.class, Flight.class, FlightProducer.class)
         .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
   }
-  
+
   @Inject
   Flight flight;
-  
+
   @Test(expected = RuntimeException.class)
   public void testNumberOfSeatsCannotBeExceeded() throws IOException {
     assertEquals(50, flight.getPassengersNumber());
     flight.addPassenger(new Passenger("850205-3917188", "정성민", "KR"));
   }
-  
+
   @Test
   public void testAddRemovePassenters() throws IOException {
     flight.setSeats(51);
