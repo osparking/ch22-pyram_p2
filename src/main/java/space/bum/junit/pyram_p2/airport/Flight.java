@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import lombok.Getter;
 
-@Getter
 public class Flight {
   private String flightNumber;
   Set<Passenger> passengers = new HashSet<>();
@@ -15,6 +14,10 @@ public class Flight {
   private String origin;
   private String destination;
   private boolean flying;
+  public boolean isFlying() {
+    return flying;
+  }
+
   private boolean takenOff;
   private boolean landed;
 
@@ -31,6 +34,22 @@ public class Flight {
     this.flying = false;
     this.takenOff = false;
     this.landed = false;
+  }
+
+  public Set<Passenger> getPassengers() {
+    return passengers;
+  }
+
+  public int getSeats() {
+    return seats;
+  }
+
+  public boolean isTakenOff() {
+    return takenOff;
+  }
+
+  public boolean isLanded() {
+    return landed;
   }
 
   public void setSeats(int seats) {
@@ -73,8 +92,8 @@ public class Flight {
 
   @Override
   public String toString() {
-    return "항공편 번호: " + getFlightNumber() +
-        ", 출발: " + getOrigin() + ", 도착: " + getDestination();
+    return "항공편 번호: " + flightNumber +
+        ", 출발: " + origin + ", 도착: " + destination;
   }
 
   public void takeOff() {

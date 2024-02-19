@@ -5,11 +5,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Passenger {
   private String identifier;
   private String name;
@@ -55,9 +50,21 @@ public class Passenger {
     this.countryCode = countryCode;
   }
 
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public String getCountryCode() {
+    return countryCode;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   @Override
   public String toString() {
-    return "승객: " + getName() + ", 아이디: " + getIdentifier()
+    return "승객: " + name + ", 아이디: " + getIdentifier()
         + ", 출신국: " + getCountryCode();
   }
 }
