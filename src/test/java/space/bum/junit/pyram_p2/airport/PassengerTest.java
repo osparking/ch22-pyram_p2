@@ -37,10 +37,8 @@ class PassengerTest {
   @DisplayName("잘못된 국가 코드 처리 시험")
   public void testSetInvalidCountryCode() {
     assertThrows(RuntimeException.class,
-        () -> {
-          (new Passenger("840108-7234567", "이승만", "KR"))
-              .setCountryCode("PP");
-        });
+        () -> (new Passenger("840108-7234567", "이승만", "US"))
+            .setCountryCode("PP"));
   }
 
   @Test
